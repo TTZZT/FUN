@@ -1,0 +1,636 @@
+/*
+ * jQuery FlexSlider v2.0
+ * http://www.woothemes.com/flexslider/
+ *
+ * Copyright 2012 WooThemes
+ * Free to use under the GPLv2 license.
+ * http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Contributing author: Tyler Smith (@mbmufffin)
+ */
+/* Browser Resets */
+.flex-container a:active,
+.flexslider a:active,
+.flex-container a:focus,
+.flexslider a:focus  {outline: none;}
+.slides,
+.flex-control-nav,
+.flex-direction-nav {margin: 0; padding: 0; list-style: none;} 
+
+/* FlexSlider Necessary Styles
+*********************************/ 
+.flexslider .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+
+.flex-pauseplay span {text-transform: capitalize;}
+
+/* Clearfix for the .slides element */
+.slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;} 
+html[xmlns] .slides {display: block;} 
+* html .slides {height: 1%;}
+
+/* No JavaScript Fallback */
+/* If you are not using another script, such as Modernizr, make sure you
+ * include js that eliminates this class on page load */
+.no-js .slides > li:first-child {display: block;}
+
+
+/* FlexSlider Default Theme
+*********************************/
+.flexslider {
+    border: 0px;
+    position: relative;
+    zoom: 1;
+}
+.flex-viewport {max-height: 2000px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; transition: all 1s ease;}
+.loading .flex-viewport {max-height: 300px;}
+.flexslider .slides {zoom: 1;}
+
+.carousel li {margin-right: 5px}
+
+
+/* Direction Nav */
+.flex-direction-nav {*height: 0;}
+.flex-direction-nav a {
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    display: block;
+    background:none;
+    position: absolute;
+    bottom: -40%;
+    z-index: 10;
+    cursor: pointer;
+    text-indent: -9999px;
+    -webkit-transition: all .3s ease;
+    border-radius: 100% 0% 0% 0;
+}
+.flex-direction-nav .flex-next {
+    background-position: 22% 16%;
+    border-radius: 0% 100% 0% 0;
+    right: 0%;
+}
+.flex-direction-nav .flex-prev {left: 0%;}
+.flexslider:hover .flex-next {opacity: 1;}
+.flexslider:hover .flex-prev {opacity: 1;}
+.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover {opacity: 1;}
+.flex-direction-nav .flex-disabled {opacity: .3!important; filter:alpha(opacity=30); cursor: default;}
+/* Control Nav */
+.flex-control-nav {
+    display: block;
+    position: absolute;
+    left: 10%;
+    margin-left: 0px;
+    bottom: 7%;
+    display: none !important;
+}
+.flex-control-nav li {margin: 0 6px; display: inline-block; zoom: 1; *display: inline;}
+.flex-control-paging li a {
+    width: 15px;
+    height: 15px;
+    display: block;
+    background:none;
+    cursor: pointer;
+    text-indent: -9999px;
+    border: 3px solid #fff;
+}
+.flex-control-paging li a.flex-active { 
+    background:none;
+    cursor: default;
+    border:3px solid #fab001;
+}
+.britichlogo{
+        width: 25%;margin-top: 0%;
+    }
+.parag{
+        margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 30px;
+    text-align: center;
+}
+.flex-control-thumbs {margin: 5px 0 0; position: static; overflow: hidden;}
+.flex-control-thumbs li {width: 25%; float: left; margin: 0;}
+.flex-control-thumbs img {width: 100%; display: block; opacity: .7; cursor: pointer;}
+.flex-control-thumbs img:hover {opacity: 1;}
+.flex-control-thumbs .flex-active {opacity: 1; cursor: default;}
+@media screen and (max-width:3500px) {
+        .modal {
+    position: fixed;
+    top: 0px !important;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+}
+    h3.newhead {
+    font-family: 'Righteous-Regular';
+    color: #000 !important;
+    text-align: center !important;
+    text-transform: capitalize !important;
+    font-weight: 500 !important;
+    font-size: 40px !important;
+}
+    img.locationmap{
+        width: 50%;
+    }
+    .s-video-content a::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 90px;
+    width: 90px;
+    background: rgba(255, 255, 255, 0.479);
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+    animation: pulse-border 1500ms ease-out infinite;
+}
+    .s-video-content a {
+       z-index: 9;
+       font-size: 14px;
+       height: 100px;
+       width: 100px;
+       text-align: center;
+       line-height: 100px;
+       border-radius: 50%;
+       display: inline-block;
+       margin-bottom: 25px;
+       position: absolute;
+       top: 43%;
+       left: 45%;
+}
+    .parag{
+        margin: 0;
+        font-size: 19px;
+        font-weight: 700;
+        line-height: 30px;
+        text-align: center;
+        text-transform: capitalize;
+        font-family: sans-serif;
+}
+    .britichlogo{
+        width: 25%;margin-top: 0%;margin-bottom: 4%;
+    }
+    .flexslider .slides img {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+    .flex-direction-nav a {
+        bottom: -45%;
+    }
+
+ h3.cp {
+  font-size: 43px;
+    line-height: 51px;
+    color: #fff;
+    font-weight: 600;
+    width: 90%;
+}
+.flex-caption {
+    position: absolute;
+    top: 36%;
+    left: 11%;
+}
+.flex-caption2 {
+    position: absolute;
+    top: 36%;
+    left: 21%;
+}
+.flex-caption3 {
+    position: absolute;
+    top: 36%;
+    left: 31%;
+}
+img.greenlogo {
+    position: absolute;
+    top: 5%;
+    z-index: 99;
+    left: 42%;
+}
+}
+@media screen and (max-width:1680px) {
+    h3.newhead {
+    font-family: 'Righteous-Regular';
+    color: #000 !important;
+    text-align: center !important;
+    text-transform: capitalize !important;
+    font-weight: 500 !important;
+    font-size: 40px !important;
+}
+    img.locationmap{
+        width: 50%;
+    }
+    .s-video-content a::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 90px;
+    width: 90px;
+    background: rgba(255, 255, 255, 0.479);
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+    animation: pulse-border 1500ms ease-out infinite;
+}
+    .s-video-content a {
+       z-index: 9;
+       font-size: 14px;
+       height: 100px;
+       width: 100px;
+       text-align: center;
+       line-height: 100px;
+       border-radius: 50%;
+       display: inline-block;
+       margin-bottom: 25px;
+       position: absolute;
+       top: 43%;
+       left: 45%;
+}
+    .parag{
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 30px;
+        text-align: justify;
+        text-transform: capitalize;
+        font-family: sans-serif;
+}
+    .britichlogo{
+        width: 25%;margin-top: 0%;margin-bottom: 4%;
+    }
+    .flexslider .slides img {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+    .flex-direction-nav a {
+        bottom: -45%;
+    }
+
+ h3.cp {
+  font-size: 43px;
+    line-height: 51px;
+    color: #fff;
+    font-weight: 600;
+    width: 50%;
+}
+.flex-caption {
+    position: absolute;
+    top: 36%;
+    left: 11%;
+}
+.flex-caption2 {
+    position: absolute;
+    top: 36%;
+    left: 21%;
+}
+.flex-caption3 {
+    position: absolute;
+    top: 36%;
+    left: 31%;
+}
+img.greenlogo {
+    position: absolute;
+    top: 5%;
+    z-index: 99;
+    left: 42%;
+}
+}
+@media screen and (max-width:1600px) {
+
+
+    .flex-direction-nav a {
+        bottom: -40%;
+    }
+}
+@media screen and (max-width:1440px) {
+    .flex-direction-nav a {
+        bottom: -50%;
+    }
+}
+@media screen and (max-width: 1366px){
+    .flex-direction-nav a {
+        bottom: -28%;
+    }
+    .flex-direction-nav .flex-prev {
+        left: 42.5%;
+    }
+}
+@media screen and (max-width: 1280px){
+    
+}
+@media screen and (max-width:1024px) {
+    .flex-direction-nav a {
+        bottom: -29%;
+    }
+}
+@media screen and (max-width:991px) {
+    .flex-control-nav {
+        right: 44%;
+    }
+}
+@media screen and (max-width: 768px) {
+    h3.newhead {
+    font-family: 'Righteous-Regular';
+    color: #000 !important;
+    text-align: center !important;
+    text-transform: capitalize !important;
+    font-weight: 500 !important;
+    font-size: 30px !important;
+}
+    .parag{
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 30px;
+        text-align: center;
+        text-transform: capitalize;
+        font-family: sans-serif;
+}
+    img.locationmap{
+        width: 70%;
+    }
+    .s-video-content a::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 90px;
+    width: 90px;
+    background: rgba(255, 255, 255, 0.479);
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+    animation: pulse-border 1500ms ease-out infinite;
+}
+    .s-video-content a {
+       z-index: 9;
+       font-size: 14px;
+       height: 100px;
+       width: 100px;
+       text-align: center;
+       line-height: 100px;
+       border-radius: 50%;
+       display: inline-block;
+       margin-bottom: 25px;
+       position: absolute;
+       top: 43%;
+       left: 45%;
+}
+
+    .flex-control-paging li a {
+        width: 12px;
+        height: 12px;
+        border: 2px solid #fff;
+    }
+    .flex-control-paging li a.flex-active {
+        border: 2px solid #fab001;
+    }
+    .flex-control-nav {
+        bottom: -29%;
+    }
+    .flexslider .slides img {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+
+ h3.cp {
+  font-size: 43px;
+    line-height: 51px;
+    color: #fff;
+    font-weight: 600;
+    width: 50%;
+}
+.flex-caption {
+    position: absolute;
+    top: 36%;
+    left: 11%;
+}
+.flex-caption2 {
+    position: absolute;
+    top: 36%;
+    left: 21%;
+}
+.flex-caption3 {
+    position: absolute;
+    top: 36%;
+    left: 31%;
+}
+img.greenlogo {
+    position: absolute;
+    top: 5%;
+    z-index: 99;
+    left: 42%;width: 170px;
+}
+}
+@media screen and (max-width: 640px) {
+    img.locationmap{
+        width: 90%;
+    }
+    .s-video-content a {
+           z-index: 9;
+    font-size: 14px;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    line-height: 100px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: 25px;
+    position: absolute;
+    top: 25%;
+    left: 41%;
+}
+.s-video-content a::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 58% !important;
+    height: 70px !important;
+    width: 70px !important;
+    background: rgba(255, 255, 255, 0.479);
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+    animation: pulse-border 1500ms ease-out infinite;
+}
+    .s-video-content a img{
+    width: 100%;
+    margin-top: -53%;
+}
+    .parag{
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 30px;
+        text-align: justify;
+        text-transform: capitalize;
+        font-family: sans-serif;
+}
+    .britichlogo {
+    width: 50%;
+    margin-top: 5%;margin-bottom: 6%;
+}
+.flexslider .slides img {
+    width: 100%;
+    display: block;
+    height: 247px;
+}
+ h3.cp {
+  font-size: 20px;
+    line-height: 22px;
+    color: #fff;
+    font-weight: 600;
+    width: 50%;
+}
+.flex-caption {
+    position: absolute;
+    top: 43%;
+    left: 11%;
+}
+.flex-caption2 {
+    position: absolute;
+    top: 43%;
+    left: 21%;
+}
+.flex-caption3 {
+    position: absolute;
+    top: 43%;
+    left: 31%;
+}
+img.greenlogo {
+    position: absolute;
+    top: 2%;
+    z-index: 99;
+    left: 30%;
+    width: 125px;
+}
+}
+@media screen and (max-width: 568px) {
+.flex-control-nav {
+    bottom: -23%;
+}
+}
+@media screen and (max-width: 480px) {
+    .modal {
+    position: fixed;
+    top: 238px !important;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+}
+    h3.newhead {
+    font-family: 'Righteous-Regular';
+   color: #000 !important;
+    text-align: center !important;
+    text-transform: capitalize !important;
+    font-weight: 500 !important;
+    font-size: 23px !important;
+}
+    img.locationmap{
+        width: 100%;
+    }
+    .s-video-content a {
+           z-index: 9;
+    font-size: 14px;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    line-height: 100px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: 25px;
+    position: absolute;
+    top: 25%;
+    left: 41%;
+}
+.s-video-content a::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 58% !important;
+    height: 70px !important;
+    width: 70px !important;
+    background: rgba(255, 255, 255, 0.479);
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+    animation: pulse-border 1500ms ease-out infinite;
+}
+    .s-video-content a img{
+    width: 100%;
+    margin-top: -53%;
+}
+    section.slider {
+        padding-top: 0%;
+    }
+    .flexslider {
+        padding: 0px 0px;
+    }
+    .flex-control-nav {
+        right: 40%;
+        bottom: -26%;
+    }
+}
+@media screen and (max-width: 414px) {
+    .flex-control-nav {
+        bottom: -12%;
+    }
+}
+@media screen and (max-width: 384px){
+}
+@media screen and (max-width: 375px){
+    .s-video-content a {
+           z-index: 9;
+    font-size: 14px;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    line-height: 100px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: 25px;
+    position: absolute;
+    top: 25%;
+    left: 41%;
+}
+.s-video-content a::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 58% !important;
+    height: 70px !important;
+    width: 70px !important;
+    background: rgba(255, 255, 255, 0.479);
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+    animation: pulse-border 1500ms ease-out infinite;
+}
+    .s-video-content a img{
+    width: 100%;
+    margin-top: -53%;
+}
+}
+@media screen and (max-width: 320px) {
+    section.slider {
+        padding-top: 0%;
+    }
+    .flex-control-nav {
+    bottom: -33%;
+    right: 37%;
+}
+}
