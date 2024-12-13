@@ -10,4 +10,9 @@ class FunController extends Controller
     {
         return view("Rate.rating");
     }
+
+    public function fun()
+    {
+        return view('fun.fun');
+    }
 }

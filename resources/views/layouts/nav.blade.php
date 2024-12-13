@@ -37,9 +37,9 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="#">USER</a></li>
-                    {{-- <li><a href="{{ url('apply_user') }}">Add User</a></li>
-                    <li><a href="{{ url('userlist') }}">User List</a></li> --}}
+                    <li><a class="link_name" href="#">Fun</a></li>
+                    <li><a href="{{ url('fun') }}">just fun</a></li>
+                    {{-- <li><a href="{{ url('userlist') }}">User List</a></li> --}}
                     {{-- <li><a href="#">PHP & MySQL</a></li> --}}
                 </ul>
             </li>

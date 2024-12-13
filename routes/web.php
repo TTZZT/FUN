@@ -21,6 +21,7 @@ Auth::routes();
 Route::middleware(['auth', Redirect::class])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/buttons', [HomeController::class, 'buttons'])->name('buttons');
+    Route::get('/fun',[FunController::class, 'fun'])->name('fun')
 });
 
 Route::get('personal', [FunController::class, 'personal'])->name('personal');
