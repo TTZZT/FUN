@@ -1,138 +1,96 @@
-/*
- Template Name: Dashor - Responsive Bootstrap 4 Admin Dashboard
- Author: Themesdesign
- Website: www.themesdesign.in
- File: Main js
- */
+'use strict';
 
-!function ($) {
-    "use strict";
+/* ===== Enable Bootstrap Popover (on element  ====== */
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
-    var MainApp = function () {
-        this.$body = $("body"),
-            this.$wrapper = $("#wrapper"),
-            this.$btnFullScreen = $("#btn-fullscreen"),
-            this.$leftMenuButton = $('.button-menu-mobile'),
-            this.$menuItem = $('.has_sub > a')
-    };
-    //scroll
-    MainApp.prototype.initSlimscroll = function () {
-        $('.slimscrollleft').slimscroll({
-            height: 'auto',
-            position: 'right',
-            size: "10px",
-            color: '#9ea5ab'
-        });
-    },
-        //left menu
-        MainApp.prototype.initLeftMenuCollapse = function () {
-            var $this = this;
-            this.$leftMenuButton.on('click', function (event) {
-                event.preventDefault();
-                $this.$body.toggleClass("fixed-left-void");
-                $this.$wrapper.toggleClass("enlarged");
-            });
-        },
-        //left menu
-        MainApp.prototype.initComponents = function () {
-            $('[data-toggle="tooltip"]').tooltip();
-            $('[data-toggle="popover"]').popover();
-        },
-        //full screen
-        MainApp.prototype.initFullScreen = function () {
-            var $this = this;
-            $this.$btnFullScreen.on("click", function (e) {
-                e.preventDefault();
+/* ==== Enable Bootstrap Alert ====== */
+//var alertList = document.querySelectorAll('.alert')
+//alertList.forEach(function (alert) {
+//  new bootstrap.Alert(alert)
+//});
 
-                if (!document.fullscreenElement && /* alternative standard method */ !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
-                    if (document.documentElement.requestFullscreen) {
-                        document.documentElement.requestFullscreen();
-                    } else if (document.documentElement.mozRequestFullScreen) {
-                        document.documentElement.mozRequestFullScreen();
-                    } else if (document.documentElement.webkitRequestFullscreen) {
-                        document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-                    }
-                } else {
-                    if (document.cancelFullScreen) {
-                        document.cancelFullScreen();
-                    } else if (document.mozCancelFullScreen) {
-                        document.mozCancelFullScreen();
-                    } else if (document.webkitCancelFullScreen) {
-                        document.webkitCancelFullScreen();
-                    }
-                }
-            });
-        },
-        //full screen
-        MainApp.prototype.initMenu = function () {
-            var $this = this;
-            $this.$menuItem.on('click', function () {
-                var parent = $(this).parent();
-                var sub = parent.find('> ul');
+const alertList = document.querySelectorAll('.alert')
+const alerts = [...alertList].map(element => new bootstrap.Alert(element))
 
-                if (!$this.$body.hasClass('sidebar-collapsed')) {
-                    if (sub.is(':visible')) {
-                        sub.slideUp(300, function () {
-                            parent.removeClass('nav-active');
-                            $('.body-content').css({height: ''});
-                            adjustMainContentHeight();
-                        });
-                    } else {
-                        visibleSubMenuClose();
-                        parent.addClass('nav-active');
-                        sub.slideDown(300, function () {
-                            adjustMainContentHeight();
-                        });
-                    }
-                }
-                return false;
-            });
 
-            //inner functions
-            function visibleSubMenuClose() {
-                $('.has_sub').each(function () {
-                    var t = $(this);
-                    if (t.hasClass('nav-active')) {
-                        t.find('> ul').slideUp(300, function () {
-                            t.removeClass('nav-active');
-                        });
-                    }
-                });
-            }
+/* ===== Responsive Sidepanel ====== */
+const sidePanelToggler = document.getElementById('sidepanel-toggler'); 
+const sidePanel = document.getElementById('app-sidepanel');  
+const sidePanelDrop = document.getElementById('sidepanel-drop'); 
+const sidePanelClose = document.getElementById('sidepanel-close'); 
 
-            function adjustMainContentHeight() {
-                // Adjust main content height
-                var docHeight = $(document).height();
-                if (docHeight > $('.body-content').height())
-                    $('.body-content').height(docHeight);
-            }
-        },
-        MainApp.prototype.activateMenuItem = function () {
-            // === following js will activate the menu in left side bar based on url ====
-            $("#sidebar-menu a").each(function () {
-                if (this.href == window.location.href) {
-                    $(this).addClass("active");
-                    $(this).parent().addClass("active"); // add active to li of the current link
-                    $(this).parent().parent().prev().addClass("active"); // add active class to an anchor
-                    $(this).parent().parent().parent().addClass("active"); // add active class to an anchor
-                    $(this).parent().parent().prev().click(); // click the item to make it drop
-                }
-            });
-        },
-        MainApp.prototype.init = function () {
-            this.initSlimscroll();
-            this.initLeftMenuCollapse();
-            this.initComponents();
-            this.initFullScreen();
-            this.initMenu();
-            this.activateMenuItem();
-        },
-        //init
-        $.MainApp = new MainApp, $.MainApp.Constructor = MainApp
-}(window.jQuery),
+window.addEventListener('load', function(){
+	responsiveSidePanel(); 
+});
 
-//initializing
-    function ($) {
-        "use strict";
-        $.MainApp.init();
-    }(window.jQuery);
+window.addEventListener('resize', function(){
+	responsiveSidePanel(); 
+});
+
+
+function responsiveSidePanel() {
+    let w = window.innerWidth;
+	if(w >= 1200) {
+	    // if larger 
+	    //console.log('larger');
+		sidePanel.classList.remove('sidepanel-hidden');
+		sidePanel.classList.add('sidepanel-visible');
+		
+	} else {
+	    // if smaller
+	    //console.log('smaller');
+	    sidePanel.classList.remove('sidepanel-visible');
+		sidePanel.classList.add('sidepanel-hidden');
+	}
+};
+
+sidePanelToggler.addEventListener('click', () => {
+	if (sidePanel.classList.contains('sidepanel-visible')) {
+		console.log('visible');
+		sidePanel.classList.remove('sidepanel-visible');
+		sidePanel.classList.add('sidepanel-hidden');
+		
+	} else {
+		console.log('hidden');
+		sidePanel.classList.remove('sidepanel-hidden');
+		sidePanel.classList.add('sidepanel-visible');
+	}
+});
+
+
+
+sidePanelClose.addEventListener('click', (e) => {
+	e.preventDefault();
+	sidePanelToggler.click();
+});
+
+sidePanelDrop.addEventListener('click', (e) => {
+	sidePanelToggler.click();
+});
+
+
+
+/* ====== Mobile search ======= */
+const searchMobileTrigger = document.querySelector('.search-mobile-trigger');
+const searchBox = document.querySelector('.app-search-box');
+
+searchMobileTrigger.addEventListener('click', () => {
+
+	searchBox.classList.toggle('is-visible');
+	
+	let searchMobileTriggerIcon = document.querySelector('.search-mobile-trigger-icon');
+	
+	if(searchMobileTriggerIcon.classList.contains('fa-magnifying-glass')) {
+		searchMobileTriggerIcon.classList.remove('fa-magnifying-glass');
+		searchMobileTriggerIcon.classList.add('fa-xmark');
+	} else {
+		searchMobileTriggerIcon.classList.remove('fa-xmark');
+		searchMobileTriggerIcon.classList.add('fa-magnifying-glass');
+	}
+	
+		
+	
+});
+
+
